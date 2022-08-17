@@ -1,0 +1,477 @@
+<html>
+<head>
+    	<title>Validation Demo</title>
+        <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet" type="text/css">
+        <script src="https://code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
+        <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js" type="text/javascript"></script>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" type="text/javascript"></script>
+        <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">  
+      <script src="https://code.jquery.com/jquery-1.10.2.js"></script>  
+      <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>  
+		
+		<script type="text/javascript">
+            $(".calculator input").on("input change", function (event) {
+	var parameterName =  $(this).attr("id").split("calc-")[1];
+	var centimeters = $(this).val()
+	
+	switch (parameterName) {
+	  case "height":
+		$("#calc-height_value").html("Height: " + centimeters + " cm");
+		break;
+	  case "weight":
+		var kg = $(this).val();
+		$("#calc-weight_value").html("Weight: " + kg + " kg");
+		break;
+	  case "age":
+		$("#calc-age_value").html("Age: " + $(this).val());
+		break;
+	  case "cardio":
+		$("#calc-cardio_value").html("Cardio: " + $(this).val() + " hours per week");
+		break;
+	  case "walking":
+		$("#calc-walking_value").html("Walking: " + $(this).val() + " hours per week");
+		break;
+	}
+	
+	var height = parseInt($("#calc-height").val(), 10);
+	var age = parseInt($("#calc-age").val(), 10);
+	var weight = parseInt($("#calc-weight").val(), 10);
+	var walking = parseInt($("#calc-walking").val(), 10);
+	var cardio = parseInt($("#calc-cardio").val(), 10);
+	var gender = $(".calculator input[name='gender']:checked").val();
+	
+	// The Harris–Benedict equations revised by Mifflin and St Jeor in 1990: 'A new predictive equation for resting energy expenditure in healthy individuals'
+	var bmr = parseInt(10 * weight + 6.25 * height - 5 * age, 10) + (gender === "male" ? 5 : -161);
+	bmr = bmr * 1.2;
+	bmr += walking*60*(.03 * weight*1/0.45) / 7;
+	bmr += cardio*60*(.07 * weight*1/0.45) / 7;
+	bmr = Math.floor(bmr);
+	
+	var targetGainWeight = Math.round((bmr+300) / 100) * 100;
+	var targetMaintain = Math.round((bmr) / 100) * 100;
+	var targetLoseWeight = Math.round((bmr-500) / 100) * 100;
+	
+	$("#calc-target-gain span").html(targetGainWeight + " calories");
+	  $("#calc-target-maintain span").html(targetMaintain + " calories");
+	 $("#calc-target-lose span").html(targetLoseWeight + " calories");
+  });
+
+
+			
+			$(document).ready(function(){
+				
+				var TxtNameFlag=false,TxtContactNoFlag=false,TxtEmailIdFlag=false,TxtContactMsgFlag=false;				
+				$("#TxtName").blur(function(){
+					$("#TxtNameValidation").empty();
+					if($(this).val()=="" || $(this).val()==null)
+					{
+						$("#TxtNameValidation").html("(*) Firstname required..!!");
+					}
+					else{
+						if(!$(this).val().match($FNameLNameRegEx))
+						{
+							$("#TxtNameValidation").html("(*) Invalid firstname..!!");
+						}
+					}
+				});
+				$("#TxtName").keypress(function(e){
+					var flag=false;
+					$("#TxtNameValidation").empty();
+					((e.which>=65 && e.which<=90) || (e.which>=97 && e.which<=122))
+					?flag=true
+					:(flag=false,$("#TxtNameValidation").html("Invalid keypress..!!"))
+					return flag;
+				});
+				$("#TxtContactNo").keypress(function(e){
+					var flag=false;
+					$("#TxtContactNoValidation").empty();
+					(e.which>=48 && e.which<=57)
+					?flag=true
+					:(flag=false,$("#TxtContactNoValidation").html("Invalid keypress..!!"))
+					return flag;
+				});
+
+				$("#TxtContactNo").blur(function(){
+					$("#TxtContactNoValidation").empty();
+					if($(this).val()=="" || $(this).val()==null)
+					{
+						$("#TxtContactNoValidation").html("(*) Contact no. required..!!");
+					}
+					else{
+						if(!$(this).val().match($ConNoRegEx))
+						{
+							$("#TxtContactNoValidation").html("(*) Invalid contact no..!!");
+						}
+					}
+				});
+				$("#TxtEmailId").blur(function(){
+					$("#TxtEmailIdValidation").empty();
+					if($(this).val()=="" || $(this).val()==null)
+					{
+						$("#TxtEmailIdValidation").html("(*) Email id required..!!");
+					}
+					else{
+						if(!$(this).val().match($EmailIdRegEx))
+						{
+							$("#TxtEmailIdValidation").html("(*) Invalid email id..!!");
+						}
+					}
+				});
+				$("#TxtContactMsg").blur(function(){
+					$("#TxtContactMsgValidation").empty();
+					if($(this).val()=="" || $(this).val()==null)
+					{
+						$("#TxtContactMsgValidation").html("(*) Contact no. required..!!");
+					}
+					else{
+						if($(this).val().length>3000)
+						{
+							$("#TxtContactMsgValidation").html("(*) Invalid contact message..!!");
+						}
+					}
+				});
+
+				$("#BtnSubmit").click(function(){
+					$("#TxtNameValidation").empty();
+					if($("#TxtName").val()=="" || $("#TxtName").val()==null)
+					{
+						$("#TxtNameValidation").html("(*) Firstname required..!!");
+						TxtNameFlag=false;
+					}
+					else{
+						if(!$("#TxtName").val().match($FNameLNameRegEx))
+						{
+							$("#TxtNameValidation").html("(*) Invalid firstname..!!");
+							TxtNameFlag=false;
+						}
+						else{
+							TxtNameFlag=true;
+						}
+					}
+					$("#TxtContactNoValidation").empty();
+					if($("#TxtContactNo").val()=="" || $("#TxtContactNo").val()==null)
+					{
+						$("#TxtContactNoValidation").html("(*) Contact no. required..!!");
+						TxtContactNoFlag=false;
+					}
+					else{
+						if(!$("#TxtContactNo").val().match($ConNoRegEx))
+						{
+							$("#TxtContactNoValidation").html("(*) Invalid contact no..!!");
+							TxtContactNoFlag=false;
+						}
+						else{
+							TxtContactNoFlag=true;
+						}
+					}
+					$("#TxtEmailIdValidation").empty();
+					if($("#TxtEmailId").val()=="" || $("#TxtEmailId").val()==null)
+					{
+						$("#TxtEmailIdValidation").html("(*) Email id required..!!");
+						TxtEmailIdFlag=false;
+					}
+					else{
+						if(!$("#TxtEmailId").val().match($EmailIdRegEx))
+						{
+							$("#TxtEmailIdValidation").html("(*) Invalid email id..!!");
+							TxtEmailIdFlag=false;
+						}
+						else{
+							TxtEmailIdFlag=true;
+						}
+					}
+					$("#TxtContactMsgValidation").empty();
+					if($("#TxtContactMsg").val()=="" || $("#TxtContactMsg").val()==null)
+					{
+						$("#TxtContactMsgValidation").html("(*) Contact no. required..!!");
+						TxtContactMsgFlag=false;
+					}
+					else{
+						if($("#TxtContactMsg").val().length>3000)
+						{
+							$("#TxtContactMsgValidation").html("(*) Invalid contact message..!!");
+							TxtContactMsgFlag=false;
+						}
+						else{
+							TxtContactMsgFlag=true;
+						}
+					}
+					if(TxtNameFlag==true && TxtContactNoFlag==true && TxtEmailIdFlag==true && TxtContactMsgFlag==true)
+					{
+						alert("Form submitted successfully..!!");
+					}
+					else{
+						alert("Invalid input..!!");
+					}
+				});
+
+			});
+            $(document).ready(function () {
+            $("#home").spinner({min:0,max:100});
+        });
+        $(function() {  
+            $( "#datepick-1" ).datepicker({  
+               appendText:"(yy-mm-dd)",  
+               dateFormat:"yy-mm-dd",  
+               altField: "#datepick-2",  
+               altFormat: "DD, d MM, yy"  
+            });  
+         });  
+			
+		</script>
+		<style type="text/css">
+			small{color:rgb(255, 29, 29);}
+			.container{
+				display: flex;
+				justify-content: center;
+                display: inline-block;
+				margin-top: 50px;
+
+			}
+        
+    
+        #home{
+            background-color: white;
+            border-color: orangered;
+            border-radius: 5px;
+        }
+        :root {
+  --primary-color: #435fda;
+  --secondary-color: #d8415c;
+  --body-font-size: 16px;
+  --line-height: 1.5;
+  --content-width: 480px;
+  --background-color: #fff;
+  --background-color-secondary: #f8f8f9;
+  --text-color: #060914;
+  --text-color--muted: #71737f;
+  --line-color: #ededef;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #657bdb;
+    --primary-color--translucent: rgba(85, 106, 195, 0.3);
+    --secondary-color: #d93d59;
+    --background-color: #060913;
+    --background-color-secondary: #0f1424;
+    --text-color: #e4e4e7;
+    --text-color--muted: #838690;
+    --line-color: #303341;
+  }
+}
+
+html {
+  font-size: 100%;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+body {
+  font-family: "Geomanist", sans-serif;
+  font-size: var(--body-font-size);
+  line-height: var(--line-height);
+  padding: .5em .5em 2em .5em;
+  margin: 0;
+}
+
+.wrapper {
+  max-width: var(--content-width);
+  margin: calc(var(--line-height) * .5em) auto 0 auto;
+}
+
+.results {
+  margin-top: .5em;
+  text-align: center;
+}
+
+.results > div {
+  margin-bottom: .5em;
+}
+
+@media (min-width: 440px) {
+  :root {
+    --body-font-size: 18px;
+    --line-height: 1.5;
+  }
+
+  .results {
+    margin: 2em 1em 0 2em;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 1em;
+  }
+  .results > div {
+    margin-bottom: 0;
+  }
+}
+
+.choose-gender {
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 2em;
+}
+
+.segmented-control {
+  flex: 1;
+  text-align: center;
+  line-height: 2em;
+  border: 1px solid var(--line-color);
+}
+
+.segmented-control:first-child {
+  border-radius: 0.5em 0 0 0.5em;
+}
+
+.segmented-control:last-child {
+  border-radius: 0 0.5em 0.5em 0;
+}
+
+.results {
+  color: var(--text-color--muted);
+}
+
+.results span {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+/* The crazy stuff that needs to be here for the custom input styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  margin: 18px 0;
+  width: 100%;
+  transition: all 0.265ms ease-out;
+}
+
+input[type="range"]:not(:last-of-type) {
+  margin-top: 0;
+  margin-bottom: 2.5em;
+}
+
+input[type="range"]:focus {
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 6px;
+  cursor: pointer;
+  background: var(--line-color);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  box-shadow: 0 0 8px 1px var(--secondary-color),
+    0 0 16px 4px var(--background-color);
+  border: 3px solid #fff;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background: var(--secondary-color);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -8px;
+}
+input[type="range"]:focus::-webkit-slider-runnable-track {
+  background: var(--secondary-color);
+}
+
+input[type="radio"] {
+  -webkit-appearance: none;
+  display: none;
+}
+
+.segmented-control input[type="radio"] + label {
+  border: 1px solid rgba(0, 0, 0, 0);
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: pointer;
+  color: var(--text-color--muted);
+}
+
+.segmented-control input[type="radio"]:checked + label {
+  background-color: var(--line-color);
+  width: 100%;
+  height: 100%;
+  display: block;
+  color: var(--text-color);
+}
+
+.segmented-control input[type="radio"]:focus + label {
+  border: 1px solid var(--secondary-color);
+}
+
+.segmented-control:first-child input[type="radio"]:checked + label {
+  border-radius: 0.5em 0 0 0.5em;
+}
+
+.segmented-control:last-child input[type="radio"]:checked + label {
+  border-radius: 0 0.5em 0.5em 0;
+}
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  background: var(--line-color);
+}
+
+input[type=range]::-moz-range-thumb {
+    box-shadow: 0 0 8px 1px var(--secondary-color),
+    0 0 16px 4px var(--background-color);
+  border: 3px solid #fff;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background: var(--secondary-color);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -8px;
+}
+		</style>
+	</head>
+	<body>
+	<div class="container">
+		<div class="fo1"> <form>
+		<h1>student form :-</h1>
+<label for="">Name:-</label><input type="text" id="TxtName" autofocus placeholder="enter the name here.." maxlength="20"/><br/>
+		<small id="TxtNameValidation"></small>
+		<hr/>
+<label for="">Phone:-</label><input type="text" id="TxtContactNo" placeholder="enter the contact no. here.." maxlength="10"/><br/>
+		<small id="TxtContactNoValidation"></small>
+		<hr/>
+<label for="">Email:-</label><input type="text" id="TxtEmailId" placeholder="enter the email id here.." maxlength="50"/><br/>
+<div class="choose-gender">
+    <div class="segmented-control"><input id="calc-gender-male" type="radio" name="gender" value="male" checked=""><label for="calc-gender-male">Male</label></div>
+      <div class="segmented-control">
+    <input id="calc-gender-female" type="radio" name="gender" value="female"><label for="calc-gender-female">Female</label></div>
+    </div>
+   
+    </div>
+  </div>
+  <hr>
+		<small id="TxtEmailIdValidation"></small>
+        <hr> <p>Date of Birth: <input type="text" id="datepick-1"></p>  
+        <p>Your DOB: <input type="text" id="datepick-2" size="35"></p>  
+		<hr/>
+        <label for="calc-age" id="calc-age_value">Age: 25</label>
+              <input id="calc-age" type="range" value="25" min="13" max="100">
+              <label for="calc-height" id="calc-height_value">Height: 180cm</label>
+              <input id="calc-height" type="range" value="180" min="80" max="250">
+              <label for="calc-weight" id="calc-weight_value">Weight: 80kg</label>
+              <input id="calc-weight" type="range" value="80" min="40" max="200">
+              
+             <hr>
+<label for="">Address:-</label><textarea rows="5" id="TxtContactMsg" placeholder="enter the address here.." maxlength="200"></textarea><br/>
+		<small id="TxtContactMsgValidation"></small>	
+        <hr><div id="bmr-calculator" class="wrapper">
+            <div class="calculator">
+             <hr/>
+		<button id="BtnSubmit">submit here..</button>
+	</form>
+	</div>
+	</div>	
+</body>
+</html>

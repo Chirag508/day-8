@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function fousdemo() {
+          document.getElementById("d1").style.backgroundColor = "green";
+          
+        }
+        
+        function WhichButton(event) {
+  alert("Are you sure!" + event.button)
+        }
+        </script>
+</head>
+<body>
+
+    <center>
+    <div id="d1" onfocus="fousdemo()" >
+    <form action=""id="f1">
+  <h1 id="o1"> <header>Admin</header></h1>
+        Name:-<input type="text"  name="Name" autofocus placeholder="Enter your name..."id="n1"><br>
+        <br>
+    
+        Email:-<input type="email" name="email" id="e1" autofocus placeholder="Enter here"><br>
+        <br>
+Password:-<input type="password" name="password"autofocus placeholder="Enter here" id="p1"><br>
+<br>    
+         <input type="button" value="sumbit" name="sumbit" id="b1" onmousedown="WhichButton(event)">
+             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;
+             &nbsp; &nbsp;
+        <input type="reset" value="reset" name="reset" id="b2"   >
+        <br>
+        <br>
+         <input type="button" value="Colour Changer" id="b3" onfocus="fousdemo()"> 
+         </center>  
+    </form>
+</div>
+</body>
+</html>
